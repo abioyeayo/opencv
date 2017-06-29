@@ -773,6 +773,7 @@ icvNewSolution( CvEMDState * state )
     }
 
     /* remove the leaving basic variable */
+    CV_Assert(leave_x != NULL);
     i = leave_x->i;
     j = leave_x->j;
     state->is_x[i][j] = 0;
@@ -1162,6 +1163,13 @@ float cv::EMD( InputArray _signature1, InputArray _signature2,
 
     return cvCalcEMD2( &_csignature1, &_csignature2, distType, 0, cost.empty() ? 0 : &_ccost,
                        _flow.needed() ? &_cflow : 0, lowerBound, 0 );
+}
+
+float cv::wrapperEMD(InputArray _signature1, InputArray _signature2,
+               int distType, InputArray _cost,
+               Ptr<float> lowerBound, OutputArray _flow)
+{
+    return EMD(_signature1, _signature2, distType, _cost, lowerBound.get(), _flow);
 }
 
 /* End of file. */
